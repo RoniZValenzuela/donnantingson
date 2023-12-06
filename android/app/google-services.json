@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "966781901853",
+    "project_id": "donnantingson2",
+    "storage_bucket": "donnantingson2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:966781901853:android:ca9bc75498cae6e5943af4",
+        "android_client_info": {
+          "package_name": "com.example.donnantingson"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsHi6ntRnqDF0Axsw6cUUMtdg2798yH-Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

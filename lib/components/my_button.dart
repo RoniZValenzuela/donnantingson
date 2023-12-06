@@ -16,7 +16,7 @@ class MyButton extends StatelessWidget {
       style: ButtonStyle(
         backgroundColor: MaterialStatePropertyAll<Color>(Colors.red),
       ),
-      // Debes asignar la función onTap aquí
+      // 
       child: Text("Iniciar Sesion", style: TextStyle(color: Colors.white, fontSize: 16.0),),
 
     );

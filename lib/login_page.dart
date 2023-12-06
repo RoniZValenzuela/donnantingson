@@ -1,16 +1,86 @@
+import 'package:donnantingson/menuprincipal.dart';
 import 'package:flutter/material.dart';
 import 'package:donnantingson/components/my_button.dart';
 import 'package:donnantingson/components/my_textfield.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   // Text editing controller
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+
+  String? errorMessage = '';
+  bool isLogin = true;
+
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  Future<void> signInWithEmailAndPassword() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: usernameController.text, password: passwordController.text);
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.message;
+      });
+    }
+  }
+
+  Future<void> createUserWithEmailAndPassword() async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: usernameController.text, password: passwordController.text);
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.message;
+      });
+    }
+  }
+
+  Widget _title() {
+    return const Text('ASKII Auth');
+  }
+
+  Widget _entryField(
+    String title,
+    TextEditingController controller,
+  ) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: title,
+      ),
+    );
+  }
+
+  Widget _errorMessage() {
+    return Text(errorMessage == '' ? '' : '$errorMessage');
+  }
+
+  Widget _submitButton() {
+    return ElevatedButton(
+      onPressed:
+          isLogin ? signInWithEmailAndPassword : createUserWithEmailAndPassword,
+      child: Text(isLogin ? 'Login' : 'Register'),
+    );
+  }
+
+  Widget _loginOrRegisterButton() {
+    return TextButton(
+        onPressed: () {
+          setState(() {
+            isLogin = !isLogin;
+          });
+        },
+        child: Text(isLogin ? 'Register' : 'Login'));
+  }
 
   // Método signUserIn
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,8 +94,7 @@ class LoginPage extends StatelessWidget {
                 image: DecorationImage(
                   image: AssetImage(
                       'assets/img/imagenlogin.png'), // Ruta de la imagen de fondo
-                  fit:
-                      BoxFit.cover, //Ajusta la imagen al tamaño de la pantalla
+                  fit: BoxFit.cover, //Ajusta la imagen al tamaño de la pantalla
                 ),
               ),
             ),
@@ -50,25 +119,18 @@ class LoginPage extends StatelessWidget {
                   const SizedBox(height: 25),
 
                   // Username
-                  MyTextField(
-                    controller: usernameController,
-                    hintText: 'Usuario',
-                    obscureText: false,
+                  Column(
+                    children: <Widget>[
+                      _entryField('email', usernameController),
+                      _entryField('password', passwordController),
+                      _errorMessage(),
+                      _submitButton(),
+                      _loginOrRegisterButton(),
+                    ],
                   ),
-                  const SizedBox(height: 25),
-
-                  // Password TextField
-                  MyTextField(
-                    controller: passwordController,
-                    hintText: 'password',
-                    obscureText: true,
-                  ),
-
                   SizedBox(height: 25),
 
-                  MyButton(
-                 
-                  ),
+                  MyButton(),
                   const SizedBox(height: 25),
 
                   Row(
@@ -96,7 +158,6 @@ class LoginPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  
                 ],
               ),
             ),
@@ -104,5 +165,28 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class WidgetTree extends StatefulWidget {
+  const WidgetTree({Key? key}) : super(key: key);
+  @override
+  State<WidgetTree> createState() => _WidgetTreeState();
+}
+
+class _WidgetTreeState extends State<WidgetTree> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        stream: _auth.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return menuprincipal();
+          } else {
+            return LoginPage();
+          }
+        });
   }
 }
