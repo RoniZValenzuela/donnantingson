@@ -1,3 +1,4 @@
+import 'package:donnantingson/components/registro.dart';
 import 'package:donnantingson/menuprincipal.dart';
 import 'package:flutter/material.dart';
 import 'package:donnantingson/components/my_button.dart';
@@ -12,8 +13,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // Text editing controller
-
   String? errorMessage = '';
   bool isLogin = true;
 
@@ -66,35 +65,33 @@ class _LoginPageState extends State<LoginPage> {
     return ElevatedButton(
       onPressed:
           isLogin ? signInWithEmailAndPassword : createUserWithEmailAndPassword,
-      child: Text(isLogin ? 'Login' : 'Register'),
+      child: Text(isLogin ? 'Login' : 'Registrarse'),
     );
   }
 
   Widget _loginOrRegisterButton() {
     return TextButton(
         onPressed: () {
-          setState(() {
-            isLogin = !isLogin;
-          });
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => RegistroUsuarioScreen()));
         },
-        child: Text(isLogin ? 'Register' : 'Login'));
+        child: Text(isLogin ? 'Registrarse' : 'Login'));
   }
 
   // Método signUserIn
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent, // Establece el fondo transparente
       body: SafeArea(
         child: Stack(
           children: [
-            // Fondo de imagen
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(
-                      'assets/img/imagenlogin.png'), // Ruta de la imagen de fondo
-                  fit: BoxFit.cover, //Ajusta la imagen al tamaño de la pantalla
+                  image: AssetImage('assets/img/imagenlogin.png'),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -110,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 50),
                   Text(
-                    "Bienvenido",
+                    "DONNANTINMG SON",
                     style: TextStyle(
                       color: Colors.grey[700],
                       fontSize: 16,

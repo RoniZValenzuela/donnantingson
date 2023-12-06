@@ -1,105 +1,83 @@
+import 'package:donnantingson/components/Convocatorias.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
+class Solicitar extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
-class MyApp extends StatelessWidget {
+class _MyHomePageState extends State<Solicitar> {
+  TextEditingController tipoSangreController = TextEditingController();
+  TextEditingController cantidadController = TextEditingController();
+  TextEditingController telefonoController = TextEditingController();
+  TextEditingController mensajeController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Solicitud de donante'),
-          centerTitle: true,
-          backgroundColor: Colors.red, // Fondo rojo de la AppBar
-        ),
-        body: Center(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Solicitud de Sangre'),
+      ),
+      body: Container(
+        color: Colors.red,
+        child: Center(
           child: Container(
-            color: Colors.white, // Fondo blanco del Container
-            width: 300,
-            padding: EdgeInsets.all(10),
+            margin: EdgeInsets.all(16),
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                DropdownButton<String>(
-                  value: 'O+',
-                  icon: Icon(Icons.arrow_downward),
-                  iconSize: 24,
-                  elevation: 16,
-                  style: TextStyle(color: Colors.red),
-                  underline: Container(
-                    height: 2,
-                    color: Colors.deepPurpleAccent,
-                  ),
-                  onChanged: (String? newValue) {
-                    if (newValue != null) {
-                      print("Nuevo tipo de sangre: $newValue");
-                    }
-                  },
-                  items: <String>[
-                    'A+',
-                    'A-',
-                    'B+',
-                    'B-',
-                    'AB+',
-                    'AB-',
-                    'O+',
-                    'O-',
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextField(
+                  controller: tipoSangreController,
+                  decoration: InputDecoration(labelText: 'Tipo de sangre'),
                 ),
                 SizedBox(height: 10),
                 TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Cantidad',
-                    border: OutlineInputBorder(),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 6, horizontal: 6),
-                  ),
+                  controller: cantidadController,
+                  decoration: InputDecoration(labelText: 'Cantidad'),
                   keyboardType: TextInputType.number,
                 ),
                 SizedBox(height: 10),
                 TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Teléfono',
-                    border: OutlineInputBorder(),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 6, horizontal: 6),
-                  ),
+                  controller: telefonoController,
+                  decoration: InputDecoration(labelText: 'Teléfono'),
                   keyboardType: TextInputType.phone,
                 ),
                 SizedBox(height: 10),
                 TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Centro de salud',
-                    border: OutlineInputBorder(),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 6, horizontal: 6),
-                  ),
+                  controller: mensajeController,
+                  decoration: InputDecoration(labelText: 'Mensaje'),
+                  maxLines: 3,
                 ),
-                SizedBox(height: 10),
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Mensaje',
-                    border: OutlineInputBorder(),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 6, horizontal: 6),
-                  ),
-                  maxLines: 5,
-                ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    print('Solicitar donante');
-                  },
-                  child: Text(
-                    'Solicitar',
-                    style: TextStyle(color: Colors.red),
+                SizedBox(height: 20),
+                Container(
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => convocatorias()));
+
+                      String tipoSangre = tipoSangreController.text;
+                      String cantidad = cantidadController.text;
+                      String telefono = telefonoController.text;
+                      String mensaje = mensajeController.text;
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    child: Text(
+                      'Solicitar',
+                      style: TextStyle(fontSize: 14),
+                    ),
                   ),
                 ),
               ],

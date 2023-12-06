@@ -1,3 +1,12 @@
+import 'package:donnantingson/components/Convocatorias.dart';
+import 'package:donnantingson/components/Donadores.dart';
+import 'package:donnantingson/components/Perfil.dart';
+import 'package:donnantingson/components/Requisitos.dart';
+import 'package:donnantingson/components/Solicitar.dart';
+import 'package:donnantingson/components/agradecimiento.dart';
+import 'package:donnantingson/components/donar.dart';
+import 'package:donnantingson/components/historialdonacion.dart';
+import 'package:donnantingson/login_page.dart';
 import 'package:flutter/material.dart';
 
 class menuprincipal extends StatefulWidget {
@@ -22,7 +31,10 @@ class _menuprincipalState extends State<menuprincipal> {
                 padding: const EdgeInsets.all(10.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => LoginPage()));
                   },
                   child: Text('Regresar a la Página de Inicio de Sesión'),
                 ),
@@ -46,7 +58,14 @@ class _menuprincipalState extends State<menuprincipal> {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(40)),
                                   child: FilledButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        Solicitar()));
+                                      },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.white,
                                         side: BorderSide(
@@ -83,15 +102,20 @@ class _menuprincipalState extends State<menuprincipal> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(40)),
                               child: FilledButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                Donar()));
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.white,
                                     side: BorderSide(
                                         color: Colors.red, width: 1.0),
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          40.0), // Define las esquinas redondeadas
-                                    ), // Define el color de fondo
+                                      borderRadius: BorderRadius.circular(40.0),
+                                    ),
                                   ),
                                   child: Center(
                                       child: Image(
@@ -139,9 +163,9 @@ class _menuprincipalState extends State<menuprincipal> {
                                           side: BorderSide(
                                               color: Colors.red, width: 1.0),
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                40.0), // Define las esquinas redondeadas
-                                          ), // Define el color de fondo
+                                            borderRadius:
+                                                BorderRadius.circular(40.0),
+                                          ),
                                         ),
                                         child: Center(
                                             child: Image(
@@ -170,15 +194,21 @@ class _menuprincipalState extends State<menuprincipal> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(40)),
                                 child: FilledButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  Perfil()));
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.white,
                                       side: BorderSide(
                                           color: Colors.red, width: 1.0),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            40.0), // Define las esquinas redondeadas
-                                      ), // Define el color de fondo
+                                        borderRadius:
+                                            BorderRadius.circular(40.0),
+                                      ),
                                     ),
                                     child: Center(
                                         child: Image(
@@ -215,15 +245,22 @@ class _menuprincipalState extends State<menuprincipal> {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(40)),
                                   child: FilledButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        convocatorias()));
+                                      },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.white,
                                         side: BorderSide(
                                             color: Colors.red, width: 1.0),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              40.0), // Define las esquinas redondeadas
-                                        ), // Define el color de fondo
+                                          borderRadius:
+                                              BorderRadius.circular(40.0),
+                                        ),
                                       ),
                                       child: Center(
                                           child: Image(
@@ -252,24 +289,29 @@ class _menuprincipalState extends State<menuprincipal> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(40)),
                               child: FilledButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                RequisitosDonador()));
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.white,
                                     side: BorderSide(
                                         color: Colors.red, width: 1.0),
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          40.0), // Define las esquinas redondeadas
-                                    ), // Define el color de fondo
+                                      borderRadius: BorderRadius.circular(40.0),
+                                    ),
                                   ),
                                   child: Center(
                                       child: Image(
                                           image: AssetImage(
-                                              'assets/img/boton6.png')))),
+                                              'assets/img/boton7.png')))),
                             ),
                           ),
                           Text(
-                            'Centro de salud',
+                            'Requisitos',
                             style: TextStyle(
                                 color: Color.fromRGBO(240, 36, 36, 1),
                                 fontSize: 20),

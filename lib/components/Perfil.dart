@@ -1,53 +1,79 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Perfil Solicitante',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: PerfilSolicitante(),
-    );
-  }
-}
-
-class PerfilSolicitante extends StatefulWidget {
-  @override
-  _PerfilSolicitanteState createState() => _PerfilSolicitanteState();
-}
-
-class _PerfilSolicitanteState extends State<PerfilSolicitante> {
-  final TextEditingController _emailController = TextEditingController();
-
+class Perfil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Perfil Solicitante'),
+        title: Text('Perfil'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: Container(
+        margin: EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.red,
+          border: Border.all(color: Colors.black),
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 8,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Perfil del solicitante'),
-            SizedBox(height: 16),
-            TextFormField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                hintText: 'Ingresa tu correo electrónico',
+            Container(
+              margin: EdgeInsets.only(bottom: 16),
+              width: 150,
+              height: 150,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.black),
+                shape: BoxShape.circle,
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white),
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: AssetImage('assets/img/iconuser.png'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 16),
-            Text('Teléfono: 662 210 2050'),
-            SizedBox(height: 32),
+            Text(
+              'USUARIO',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: 16),
+            Text(
+              'CONTACTO',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              'Tipo de sangre',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+
+
           ],
         ),
       ),
