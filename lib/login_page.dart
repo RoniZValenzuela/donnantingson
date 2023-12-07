@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:donnantingson/components/my_button.dart';
 import 'package:donnantingson/components/my_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:donnantingson/firebase/auth.dart';
+import 'package:donnantingson/firebase/firebase_login.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -13,72 +16,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  final _formKey = GlobalKey<FormState>();
+
   String? errorMessage = '';
   bool isLogin = true;
 
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  TextEditingController userController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
-  Future<void> signInWithEmailAndPassword() async {
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: usernameController.text, password: passwordController.text);
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message;
-      });
-    }
-  }
-
-  Future<void> createUserWithEmailAndPassword() async {
-    try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: usernameController.text, password: passwordController.text);
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message;
-      });
-    }
-  }
-
-  Widget _title() {
-    return const Text('ASKII Auth');
-  }
-
-  Widget _entryField(
-    String title,
-    TextEditingController controller,
-  ) {
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: title,
-      ),
-    );
-  }
-
-  Widget _errorMessage() {
-    return Text(errorMessage == '' ? '' : '$errorMessage');
-  }
-
-  Widget _submitButton() {
-    return ElevatedButton(
-      onPressed:
-          isLogin ? signInWithEmailAndPassword : createUserWithEmailAndPassword,
-      child: Text(isLogin ? 'Login' : 'Registrarse'),
-    );
-  }
-
-  Widget _loginOrRegisterButton() {
-    return TextButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => RegistroUsuarioScreen()));
-        },
-        child: Text(isLogin ? 'Registrarse' : 'Login'));
-  }
+  final AuthService _auth = AuthService();
 
   // Método signUserIn
   @override
@@ -116,18 +63,44 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 25),
 
                   // Username
-                  Column(
-                    children: <Widget>[
-                      _entryField('email', usernameController),
-                      _entryField('password', passwordController),
-                      _errorMessage(),
-                      _submitButton(),
-                      _loginOrRegisterButton(),
-                    ],
+                  Form(
+                    child: Column(
+                      key: _formKey,
+                      children: [
+                        TextFormField(
+                          controller: userController,
+                          decoration: InputDecoration(
+                            labelText: 'Correo',
+                          ),
+                        ),
+                        TextFormField(
+                          controller: passwordController,
+                          decoration: InputDecoration(
+                            labelText: 'Contraseña',
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(height: 25),
 
-                  MyButton(),
+                  ElevatedButton(
+                    onPressed: () async {
+                        dynamic result = await _auth.signInEmailPassword(LoginUser(email: userController.text, password: passwordController.text));
+                          print("Test: ${result.uid}");
+                          if (result.uid == null) {
+                            Fluttertoast.showToast(msg: "Algo salio mal al intentar iniciar session. Verifique si los datos estan correctos");
+                            print("ALGO SALIO MAL");
+                          }else{
+                            Fluttertoast.showToast(msg: "Bienvenido, ${result.uid}");
+                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => menuprincipal()));
+                          }
+                      },
+                    style: const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll<Color>(Colors.red),
+                    ),
+                    child: const Text("Iniciar Sesion", style: TextStyle(color: Colors.white, fontSize: 16.0),),
+                  ),
                   const SizedBox(height: 25),
 
                   Row(
@@ -162,28 +135,5 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-  }
-}
-
-class WidgetTree extends StatefulWidget {
-  const WidgetTree({Key? key}) : super(key: key);
-  @override
-  State<WidgetTree> createState() => _WidgetTreeState();
-}
-
-class _WidgetTreeState extends State<WidgetTree> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: _auth.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return menuprincipal();
-          } else {
-            return LoginPage();
-          }
-        });
   }
 }

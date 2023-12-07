@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:donnantingson/firebase/firebase_login.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:donnantingson/firebase/auth.dart';
 
 class RegistroUsuarioScreen extends StatefulWidget {
   @override
@@ -6,8 +9,11 @@ class RegistroUsuarioScreen extends StatefulWidget {
 }
 
 class _RegistroUsuarioScreenState extends State<RegistroUsuarioScreen> {
-  TextEditingController correoController = TextEditingController();
-  TextEditingController contrasenaController = TextEditingController();
+
+  final AuthService _auth = AuthService();
+  
+  TextEditingController userController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,31 +36,34 @@ class _RegistroUsuarioScreenState extends State<RegistroUsuarioScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _buildTextField('Correo Electrónico', correoController),
+                  _buildTextField('Correo Electrónico', userController),
                   SizedBox(height: 16),
-                  _buildTextField('Contraseña', contrasenaController,
+                  _buildTextField('Contraseña', passwordController,
                       obscureText: true),
                   SizedBox(height: 32),
+                  
+                  //Boton Registrar
                   ElevatedButton(
-                    onPressed: () {
-                      String correo = correoController.text;
-                      String contrasena = contrasenaController.text;
-
-                      _mostrarRegistroCompletado(context);
-
-                      print(
-                          'Usuario registrado: $correo, Contraseña: $contrasena');
-                    },
+                    onPressed: () async {
+                          dynamic result = await _auth.registerEmailPassword(LoginUser(email: userController.text, password: passwordController.text));
+                          if(result.uid == null){
+                            Fluttertoast.showToast(msg: "Algo salio mal al intentar crear cuenta. Verifique si los datos estan correctos");
+                          }else{
+                            Fluttertoast.showToast(msg: "Cuenta creada, intente iniciar sesion");
+                            Navigator.of(context).pop();
+                          }
+                        },
                     style: ElevatedButton.styleFrom(
                       primary: Color(0xFFED1B24),
                       padding:
                           EdgeInsets.symmetric(horizontal: 50, vertical: 16),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Registrarse',
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
+
                   SizedBox(height: 16),
                   TextButton(
                     onPressed: () {
@@ -83,26 +92,6 @@ class _RegistroUsuarioScreenState extends State<RegistroUsuarioScreen> {
         labelText: label,
         border: OutlineInputBorder(),
       ),
-    );
-  }
-
-  void _mostrarRegistroCompletado(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Registro Completado'),
-          content: Text('Tu registro ha sido completado con éxito.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
     );
   }
 }

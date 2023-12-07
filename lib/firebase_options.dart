@@ -17,15 +17,24 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -43,39 +52,11 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyC50oItc1gXek2M5B8AFyN0ni-YFw2UabM',
-    appId: '1:966781901853:web:ca8d1b7135db0536943af4',
-    messagingSenderId: '966781901853',
-    projectId: 'donnantingson2',
-    authDomain: 'donnantingson2.firebaseapp.com',
-    storageBucket: 'donnantingson2.appspot.com',
-    measurementId: 'G-NZN6ER4S52',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBsHi6ntRnqDF0Axsw6cUUMtdg2798yH-Y',
     appId: '1:966781901853:android:ca9bc75498cae6e5943af4',
     messagingSenderId: '966781901853',
     projectId: 'donnantingson2',
     storageBucket: 'donnantingson2.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCp_w5KqwRc6BIou-LGf_tCQzu0adheEhk',
-    appId: '1:966781901853:ios:71168bde7884c359943af4',
-    messagingSenderId: '966781901853',
-    projectId: 'donnantingson2',
-    storageBucket: 'donnantingson2.appspot.com',
-    iosBundleId: 'com.example.donnantingson',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCp_w5KqwRc6BIou-LGf_tCQzu0adheEhk',
-    appId: '1:966781901853:ios:d507528003b342fd943af4',
-    messagingSenderId: '966781901853',
-    projectId: 'donnantingson2',
-    storageBucket: 'donnantingson2.appspot.com',
-    iosBundleId: 'com.example.donnantingson.RunnerTests',
   );
 }
